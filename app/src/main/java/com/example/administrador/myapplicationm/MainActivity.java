@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         editTextDescription.setText("HI");
 
-        new doit().execute();
+        //new doit().execute();
 
     }
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, e.toString());
                             }
                         });
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,30 +111,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveNote(View v){
-        String title = editTextTitle.getText().toString();
-        String description = editTextDescription.getText().toString();
+    public void resetDB(View v){
+        ArrayList<Integer> aF= new ArrayList<>(Collections.nCopies(12, 0));
+        Map<String,Object> tempz = new HashMap<>();
+        for (int i=0; i<13; i++) {
+            tempz.put("E"+Integer.toString(i), aF);
 
-        Map<String,Object> note = new HashMap<>();
-        note.put(KEY_TITLE,title);
-        note.put(KEY_DESCRIPTION, description);
+        }
 
-        db.collection("Notebook").document("My first note").set(note)
+        db.collection("Temperaturas").document("Estaciones").set(tempz)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this, "Note saved", Toast.LENGTH_SHORT).show();;
+                        Toast.makeText(MainActivity.this, "ARRAY GUARDADO", Toast.LENGTH_SHORT).show();
                     }
                 })
-
-
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error GUARDANDO!", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, e.toString());
                     }
                 });
+
     }
 
     public String cutBeforeData(String orgData){
